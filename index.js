@@ -109,11 +109,18 @@ if (!fs.existsSync(scriptDir)) {
 fs.writeFileSync(scriptFile, zshScriptContent, { mode: 0o755 });
 console.log('Script created at ' + scriptFile);
 
-// Add script to the user's path via their shell config file
 const exportCommand = 'export PATH="$HOME/bin:$PATH"';
-if (!shell.grep(exportCommand, shellConfigFile)) {
+const exportRegex = new RegExp(exportCommand.replace(/\$/g, '\\$'), 'g');
+
+// Read the shell config file
+const shellConfigContent = fs.readFileSync(shellConfigFile, 'utf8');
+
+// If the exportCommand is not found, append it
+if (!exportRegex.test(shellConfigContent)) {
     fs.appendFileSync(shellConfigFile, '\n# Add git-user script to PATH\n' + exportCommand + '\n');
     console.log('Added git-user to PATH via ' + shellConfigFile);
+} else {
+    console.log('PATH already includes $HOME/bin in ' + shellConfigFile);
 }
 
 // Ensure the `.git-users` file exists
