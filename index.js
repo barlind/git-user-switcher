@@ -129,6 +129,4 @@ if (!fs.existsSync(gitUsersFile)) {
     console.log('Created ' + gitUsersFile + ' for storing git user profiles.');
 }
 
-shell.exec('source ' + shellConfigFile);
-
-console.log("Installation complete. You can now use the 'git-user' command.");
+console.log("Installation complete. Source your " + shellConfigFile + " and then you can use the 'git-user' command.");
