@@ -70,7 +70,7 @@ function switch_git_user() {
         return 1;
     }
 
-    const match = shell.grep(`^${key}:`, gitUsersFile).stdout;
+    const match = shell.grep('^' + key + ':', gitUsersFile).stdout;
     if (!match) {
         // If key doesn't exist, ask for details and add it
         add_new_git_user(key);
