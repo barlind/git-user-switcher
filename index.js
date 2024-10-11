@@ -81,11 +81,11 @@ function switch_git_user() {
     const email = match.match(/email=([^,]+)/)[1];
 
     if (name && email) {
-        shell.exec(`git config --global user.name "${name}"`);
-        shell.exec(`git config --global user.email "${email}"`);
-        console.log(`Switched to Git user: Name: ${name}, Email: ${email}`);
+        shell.exec('git config --global user.name "' + name + '"');
+        shell.exec('git config --global user.email "' + email + '"');
+        console.log('Switched to Git user: Name: ' + name + ', Email: ' + email);
     } else {
-        console.log("Invalid configuration for key:", key);
+        console.log('Invalid configuration for key:', key);
     }
 }
 
@@ -97,19 +97,19 @@ if (!fs.existsSync(scriptDir)) {
 // Write the script file
 fs.writeFileSync(scriptFile, zshScriptContent, { mode: 0o755 });
 
-console.log(`Script created at ${scriptFile}`);
+console.log('Script created at ' + scriptFile);
 
 // Add script to the user's path via their shell config file
-const exportCommand = `export PATH="$HOME/bin:$PATH"`;
+const exportCommand = 'export PATH="$HOME/bin:$PATH"';
 if (!shell.grep(exportCommand, shellConfigFile)) {
-    fs.appendFileSync(shellConfigFile, `\n# Add git-user script to PATH\n${exportCommand}\n`);
-    console.log(`Added git-user to PATH via ${shellConfigFile}`);
+    fs.appendFileSync(shellConfigFile, '\n# Add git-user script to PATH\n' + exportCommand + '\n');
+    console.log('Added git-user to PATH via ' + shellConfigFile);
 }
 
 // Ensure the `.git-users` file exists
 if (!fs.existsSync(gitUsersFile)) {
     fs.writeFileSync(gitUsersFile, '');
-    console.log(`Created ${gitUsersFile} for storing git user profiles.`);
+    console.log('Created ' + gitUsersFile + ' for storing git user profiles.');
 }
 
 console.log("Installation complete. You can now use the 'git-user' command.");
