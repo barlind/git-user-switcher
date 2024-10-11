@@ -77,8 +77,8 @@ function switch_git_user() {
         return
     fi
 
-    name=$(echo $match | sed 's/.*name=\$begin:math:text$[^,]*\\$end:math:text$.*/\\1/')
-    email=$(echo $match | sed 's/.*email=\$begin:math:text$[^,]*\\$end:math:text$.*/\\1/')
+    name=$(echo $match | sed -n 's/.*name=\([^,]*\).*/\1/p')
+    email=$(echo $match | sed -n 's/.*email=\([^,]*\).*/\1/p')
 
     if [[ -n "$name" && -n "$email" ]]; then
         git config --global user.name "$name"
