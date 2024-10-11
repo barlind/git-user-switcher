@@ -89,7 +89,6 @@ function switch_git_user() {
     }
 }
 
-// Ensure the `bin` folder exists
 if (!fs.existsSync(scriptDir)) {
     shell.mkdir('-p', scriptDir);
 }
@@ -106,10 +105,10 @@ if (!shell.grep(exportCommand, shellConfigFile)) {
     console.log('Added git-user to PATH via ' + shellConfigFile);
 }
 
-// Ensure the `.git-users` file exists
 if (!fs.existsSync(gitUsersFile)) {
     fs.writeFileSync(gitUsersFile, '');
     console.log('Created ' + gitUsersFile + ' for storing git user profiles.');
 }
 
 console.log("Installation complete. You can now use the 'git-user' command.");
+`
