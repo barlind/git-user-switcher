@@ -107,24 +107,19 @@ if (!fs.existsSync(scriptDir)) {
 
 // Write the script file
 fs.writeFileSync(scriptFile, zshScriptContent, { mode: 0o755 });
+console.log('Script created at ' + scriptFile);
 
-console.log(`Script created at ${scriptFile}`);
-
-// Add script to the user's path via .zshrc
-if (!fs.existsSync(zshrcFile)) {
-    fs.writeFileSync(zshrcFile, '');
-}
-
-const exportCommand = `export PATH="$HOME/bin:$PATH"`;
-if (!shell.grep(exportCommand, zshrcFile)) {
-    fs.appendFileSync(zshrcFile, `\n# Add git-user script to PATH\n${exportCommand}\n`);
-    console.log("Added git-user to PATH via .zshrc");
+// Add script to the user's path via their shell config file
+const exportCommand = 'export PATH="$HOME/bin:$PATH"';
+if (!shell.grep(exportCommand, shellConfigFile)) {
+    fs.appendFileSync(shellConfigFile, '\n# Add git-user script to PATH\n' + exportCommand + '\n');
+    console.log('Added git-user to PATH via ' + shellConfigFile);
 }
 
 // Ensure the `.git-users` file exists
 if (!fs.existsSync(gitUsersFile)) {
     fs.writeFileSync(gitUsersFile, '');
-    console.log(`Created ${gitUsersFile} for storing git user profiles.`);
+    console.log('Created ' + gitUsersFile + ' for storing git user profiles.');
 }
 
-console.log("Installation complete. You can now use 'git-user' command.");
+console.log("Installation complete. You can now use the 'git-user' command.");
